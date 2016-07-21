@@ -51,8 +51,8 @@ def app_academy_contiguous_sum(list)
   list.each do |num|
     current += num
     largest = current if current > largest
-    current = 0 if num < 0
+    current = 0 if current < 0
   end
-  
+
   largest
 end
