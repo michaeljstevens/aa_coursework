@@ -20,8 +20,3 @@ class Deck
   end
 
 end
-# 
-# a = Deck.new
-# a.populate
-# p a.dealer_pile
-# p a.dealer_pile.size

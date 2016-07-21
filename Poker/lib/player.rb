@@ -1,6 +1,7 @@
+require 'byebug'
 class Player
 
-  attr_accessor :hand, :pot
+  attr_accessor :hand, :pot, :name
 
   def initialize(name, hand)
     @name = name
@@ -9,7 +10,9 @@ class Player
   end
 
   def take_action(current_bet)
-    "Current bet is #{current_bet}. Would you like to call(c),
+    p hand
+    p self.pot
+    puts "Current bet is #{current_bet}. Would you like to call(c),
     raise to(amount), or fold(f)?"
 
     input = gets.chomp
@@ -26,9 +29,10 @@ class Player
   end
 
   def shuffle
+    p hand
     puts "Choose which cards to discard (idx)"
     discard = gets.chomp.split(',').map{ |el| el.to_i }
-    discard.each{|idx| @hand.delete_at(idx) }
+    discard.each{|idx| @hand.cards.delete_at(idx) }
     discard.size
   end
 end
