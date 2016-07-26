@@ -1,19 +1,7 @@
 require_relative 'questionsdatabase'
+require_relative 'modelbase'
 
-class Like
-  def self.find_by_id(id)
-    like = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        question_likes
-      WHERE
-        id = ?
-    SQL
-
-    return nil unless like.length > 0
-    Like.new(like.first)
-  end
+class Like < ModelBase
 
   def self.likers_for_question_id(question_id)
     likers = QuestionsDatabase.instance.execute(<<-SQL, question_id)

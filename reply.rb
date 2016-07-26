@@ -1,27 +1,15 @@
 require_relative 'questionsdatabase'
+require_relative 'modelbase'
 
-class Reply
-  def self.find_by_id(id)
-    reply = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        id = ?
-    SQL
-
-    return nil unless reply.length > 0
-    Reply.new(reply.first)
-  end
+class Reply < ModelBase
 
   attr_accessor :id, :parent_id, :user_id, :question_id, :body
 
   def initialize(options)
     @id = options['id']
-    @user_id = options['user_id']
     @question_id = options['question_id']
     @parent_id = options['parent_id']
+    @user_id = options['user_id']
     @body = options['body']
   end
 
@@ -81,32 +69,5 @@ class Reply
     children.map{|child| Reply.new(child)}
   end
 
-  def save
-    if @id
-      update
-    else
-      create
-    end
-  end
 
-  def create
-    QuestionsDatabase.instance.execute(<<-SQL, @question_id, @parent_id, @user_id, @body)
-      INSERT INTO
-        replies(question_id, parent_id, user_id, body)
-      VALUES
-        (?, ?, ?, ?)
-    SQL
-    @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def update
-    QuestionsDatabase.instance.execute(<<-SQL, @question_id, @parent_id, @user_id, @body, @id)
-      UPDATE
-        replies
-      SET
-        question_id = ?, parent_id = ?, user_id = ?, body = ?
-      WHERE
-        id = ?
-    SQL
-  end
 end

@@ -1,6 +1,7 @@
 require_relative 'questionsdatabase'
+require_relative 'modelbase'
 
-class Follow
+class Follow < ModelBase
 
   def self.most_followed_questions(n)
     most_follow = QuestionsDatabase.instance.execute(<<-SQL, n)
@@ -19,20 +20,6 @@ class Follow
     SQL
     most_follow.map{ |q| Question.new(q) }
 
-  end
-
-  def self.find_by_id(id)
-    follow = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        question_follows
-      WHERE
-        id = ?
-    SQL
-
-    return nil unless follow.length > 0
-    Follow.new(follow.first)
   end
 
   def self.followers_for_question_id(question_id)
