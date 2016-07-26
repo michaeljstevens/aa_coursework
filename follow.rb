@@ -1,6 +1,26 @@
 require_relative 'questionsdatabase'
 
 class Follow
+
+  def self.most_followed_questions(n)
+    most_follow = QuestionsDatabase.instance.execute(<<-SQL, n)
+      SELECT
+        *
+      FROM
+        question_follows
+      JOIN
+        questions ON questions.id = question_id
+      GROUP BY
+        questions.id, questions.body, questions.title, questions.user_id
+      ORDER BY
+        COUNT(*) DESC
+      LIMIT
+        ?
+    SQL
+    most_follow.map{ |q| Question.new(q) }
+
+  end
+
   def self.find_by_id(id)
     follow = QuestionsDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -29,6 +49,22 @@ class Follow
 
     raise "No followers" if followers.empty?
     followers.map{|user| User.new(user)}
+  end
+
+  def self.followed_questions_for_user_id(user_id)
+    followed = QuestionsDatabase.instance.execute(<<-SQL, user_id)
+      SELECT
+        questions.*
+      FROM
+        questions
+      JOIN
+        question_follows ON question_id = questions.id
+      WHERE
+        question_follows.user_id = ?
+    SQL
+
+    raise "No questions followed" if followed.empty?
+    followed.map{ |question| Question.new(question) }
   end
 
   attr_accessor :id, :user_id, :question_id

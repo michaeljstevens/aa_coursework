@@ -45,4 +45,26 @@ class User
     raise "#{self} doesn't exist" unless @id
     Reply.find_by_user_id(@id)
   end
+
+  def followed_questions
+    Follow.followed_questions_for_user_id(@id)
+  end
+
+  def liked_questions
+    Like.liked_questions_for_user_id(@id)
+  end
+
+  def average_karma
+    avg_likes = QuestionsDatabase.instance.execute(<<-SQL, @id)
+    SELECT
+      count(question_likes.id) / count(DISTINCT question_id)
+    FROM
+      questions
+    LEFT JOIN
+      question_likes ON questions.id = question_likes.question_id
+    WHERE
+      questions.user_id = ?
+    SQL
+
+  end
 end
