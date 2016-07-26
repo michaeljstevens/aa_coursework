@@ -99,8 +99,12 @@ class ModelBase
   end
 
   def self.build_where_string(options)
-    where_vals = options.map{|k,v| "#{k} = \"#{v}\""}
-    where_string = where_vals.join(" AND ")
+    if options.is_a?(Hash)
+      where_vals = options.map{|k,v| "#{k} = \"#{v}\""}
+      where_string = where_vals.join(" AND ")
+    else
+      where_string = options
+    end
 
     <<-SQL
     SELECT
@@ -116,6 +120,7 @@ class ModelBase
   def self.method_missing(method_name, *args)
     method_name = method_name.to_s
     options = {}
+
     if method_name.start_with?("find_by_")
       attributes = method_name[("find_by_".length)..-1].split("_and_")
 
