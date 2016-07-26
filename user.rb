@@ -1,19 +1,22 @@
 require_relative 'questionsdatabase'
+require_relative 'modelbase'
 
-class User
-  def self.find_by_id(id)
-    user = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        id = ?
-    SQL
+class User < ModelBase
+  # def self.find_by_id(id)
+  #   user = QuestionsDatabase.instance.execute(<<-SQL, id)
+  #     SELECT
+  #       *
+  #     FROM
+  #       users
+  #     WHERE
+  #       id = ?
+  #   SQL
+  #
+  #   return nil unless user.length > 0
+  #   User.new(user.first)
+  # end
 
-    return nil unless user.length > 0
-    User.new(user.first)
-  end
+
 
   def self.find_by_name(fname, lname)
     name = QuestionsDatabase.instance.execute(<<-SQL, fname, lname)
@@ -54,10 +57,39 @@ class User
     Like.liked_questions_for_user_id(@id)
   end
 
+  def save
+    if @id
+      update
+    else
+      create
+    end
+  end
+
+  def create
+    QuestionsDatabase.instance.execute(<<-SQL, @fname, @lname)
+      INSERT INTO
+        users(fname, lname)
+      VALUES
+        (?, ?)
+    SQL
+    @id = QuestionsDatabase.instance.last_insert_row_id
+  end
+
+  def update
+    QuestionsDatabase.instance.execute(<<-SQL, @fname, @lname, @id)
+      UPDATE
+        users
+      SET
+        fname = ?, lname = ?
+      WHERE
+        id = ?
+    SQL
+  end
+
   def average_karma
     avg_likes = QuestionsDatabase.instance.execute(<<-SQL, @id)
     SELECT
-      count(question_likes.id) / count(DISTINCT question_id)
+      CAST(count(question_likes.id) AS FLOAT) / count(DISTINCT questions.id) AS avg_karma
     FROM
       questions
     LEFT JOIN
@@ -65,6 +97,6 @@ class User
     WHERE
       questions.user_id = ?
     SQL
-
+    avg_likes.first['avg_karma']
   end
 end

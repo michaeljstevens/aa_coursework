@@ -1,6 +1,7 @@
 require_relative 'questionsdatabase'
+require_relative 'modelbase'
 
-class Question
+class Question < ModelBase
   def self.find_by_id(id)
     question = QuestionsDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -65,5 +66,34 @@ class Question
 
   def num_likes
     Like.num_likes_for_question_id(@id)
+  end
+
+  def save
+    if @id
+      update
+    else
+      create
+    end
+  end
+
+  def create
+    QuestionsDatabase.instance.execute(<<-SQL, @title, @body, @user_id)
+      INSERT INTO
+        questions(title, body, user_id)
+      VALUES
+        (?, ?, ?)
+    SQL
+    @id = QuestionsDatabase.instance.last_insert_row_id
+  end
+
+  def update
+    QuestionsDatabase.instance.execute(<<-SQL, @title, @body, @user_id, @id)
+      UPDATE
+        questions
+      SET
+        title = ?, body = ?, user_id = ?
+      WHERE
+        id = ?
+    SQL
   end
 end
