@@ -5,6 +5,8 @@ class ShortenedUrl < ActiveRecord::Base
   validates :long_url, :uniqueness => true, :presence => true
   validates :short_url, :uniqueness => true, :presence => true
 
+  validate :too_long?
+
   belongs_to :submitter,
     primary_key: :id,
     foreign_key: :user_id,
@@ -19,6 +21,21 @@ class ShortenedUrl < ActiveRecord::Base
     Proc.new { distinct },
     through: :visits,
     source: :users
+
+  has_many :taggings,
+    primary_key: :id,
+    foreign_key: :site_id,
+    class_name: "Tagging"
+
+  has_many :tag_topics,
+    through: :taggings,
+    source: :tag_topic
+
+  def too_long?(url)
+    if url.long_url.length > 5
+      url.error[attribute] << "Too long!"
+    end
+  end
 
   def self.random_code
     output = SecureRandom.urlsafe_base64
