@@ -2,10 +2,9 @@
 require 'byebug'
 class ShortenedUrl < ActiveRecord::Base
   validates :user_id, :presence => true
-  validates :long_url, :uniqueness => true, :presence => true
+  validates :long_url, :uniqueness => true, :presence => true, length: { maximum: 1024 }
   validates :short_url, :uniqueness => true, :presence => true
 
-  validate :too_long?
 
   belongs_to :submitter,
     primary_key: :id,
@@ -30,12 +29,6 @@ class ShortenedUrl < ActiveRecord::Base
   has_many :tag_topics,
     through: :taggings,
     source: :tag_topic
-
-  def too_long?(url)
-    if url.long_url.length > 5
-      url.error[attribute] << "Too long!"
-    end
-  end
 
   def self.random_code
     output = SecureRandom.urlsafe_base64
