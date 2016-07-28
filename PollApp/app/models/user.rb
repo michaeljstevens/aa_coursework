@@ -14,4 +14,6 @@ class User < ActiveRecord::Base
     class_name: "Response"
   )
 
+  validates :user_name, :presence => true
+
 end

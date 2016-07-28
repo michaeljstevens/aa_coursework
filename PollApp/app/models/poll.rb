@@ -14,4 +14,7 @@ class Poll < ActiveRecord::Base
     class_name: "Question"
   )
 
+  validates :title, :author_id, :presence => true
+  validates :title, :uniqueness => true
+
 end

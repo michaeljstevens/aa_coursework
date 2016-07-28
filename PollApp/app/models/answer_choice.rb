@@ -1,4 +1,4 @@
-class AnswerChoice < ActiveRecord::Base 
+class AnswerChoice < ActiveRecord::Base
 
   belongs_to(
    :question,
@@ -7,4 +7,11 @@ class AnswerChoice < ActiveRecord::Base
    class_name: "Question"
   )
 
+  has_many(
+  :responses,
+  primary_key: :id,
+  foreign_key: :answer_choice_id,
+  class_name: "Response"
+  )
+  validates :text, :question_id, :presence => true
 end
