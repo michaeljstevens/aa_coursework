@@ -49,6 +49,13 @@ class ShortenedUrl < ActiveRecord::Base
     output
   end
 
+  # def self.prune
+  #   old_urls = ShortenedUrl.where("created_at < ?", 120.minutes.ago)
+  #   until old_urls.empty?
+  #     old_urls[0].delete
+  #   end
+  # end
+
   def self.create_for_user_and_long_url!(user, long_url)
     create!(
     :long_url => long_url,
