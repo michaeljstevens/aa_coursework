@@ -4,6 +4,7 @@ class ShortenedUrl < ActiveRecord::Base
   validates :user_id, :presence => true
   validates :long_url, :uniqueness => true, :presence => true, length: { maximum: 1024 }
   validates :short_url, :uniqueness => true, :presence => true
+  validate :number_of_entries
 
 
   belongs_to :submitter,
@@ -29,6 +30,14 @@ class ShortenedUrl < ActiveRecord::Base
   has_many :tag_topics,
     through: :taggings,
     source: :tag_topic
+
+  def number_of_entries
+    unless User.where("id = ?", self.user_id).first.premium
+      if ShortenedUrl.where("user_id = ?", self.user_id).count >= 5
+        errors.add(:shortened_url, "Limit 5 entries for non-premium users. Upgrade now!")
+      end
+    end
+  end
 
   def self.random_code
     output = SecureRandom.urlsafe_base64

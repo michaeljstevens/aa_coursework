@@ -1,5 +1,7 @@
+require 'byebug'
 class User < ActiveRecord::Base
   validates :email, :uniqueness => true, :presence => true
+
 
   has_many :submitted_urls,
     primary_key: :id,
@@ -16,5 +18,6 @@ class User < ActiveRecord::Base
     through: :visits,
     source: :shortened_urls
 
+  
 
 end
