@@ -17,4 +17,11 @@ class User < ActiveRecord::Base
   has_many :shared_contacts,
     through: :contact_shares,
     source: :contact
+
+  has_many :comments, as: :commentable
+
+  has_many :authored_comments,
+    primary_key: :id,
+    foreign_key: :user_id,
+    class_name: :Comment
 end

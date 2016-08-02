@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :users, only: [:index, :show, :update, :create, :destroy] do
-    resources :contacts, only: [:index]
+    resources :contacts, :comments, only: [:index]
+    resource :comments, only: [:create, :destroy, :update]
+    get 'authored_comments/' => 'comments#author_index'
   end
   # get 'users/' => 'users#index'
   # get 'users/:id' => 'users#show'
@@ -10,6 +12,8 @@ Rails.application.routes.draw do
   # put 'users/:id' => 'users#update'
   # get 'users/new' => 'users#new'
   # get 'users/:id/edit' => 'users#edit'
-  resources :contacts, only: [:show, :update, :create, :destroy]
+  resources :contacts, only: [:show, :update, :create, :destroy] do
+    resources :comments, only: [:index]
+  end
   resources :contact_shares, only: [:create, :destroy]
 end
