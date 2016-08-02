@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :users, only: [:index, :show, :update, :create, :destroy] do
     resources :contacts, :comments, only: [:index]
-    resource :comments, only: [:create, :destroy, :update]
     get 'authored_comments/' => 'comments#author_index'
   end
   # get 'users/' => 'users#index'
@@ -16,4 +15,5 @@ Rails.application.routes.draw do
     resources :comments, only: [:index]
   end
   resources :contact_shares, only: [:create, :destroy]
+  resources :comments, only: [:create, :destroy, :update]
 end

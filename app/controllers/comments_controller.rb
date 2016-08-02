@@ -24,33 +24,29 @@ class CommentsController < ApplicationController
       render json: comment.errors.full_messages, status: :unprocessable_entity
     end
   end
-  #
-  # def show
-  #   @comment = Comment.find_by(id: params[:id])
-  #   render json: @comment
-  # end
-  #
-  # def update
-  #   @comment = Comment.find_by(id: params[:id])
-  #   if @comment.update(comment_params)
-  #     render json: @comment
-  #   else
-  #     render json: comment.errors.full_messages, status: :unprocessable_entity
-  #   end
-  # end
-  #
-  # def destroy
-  #   @comment = Comment.find_by(id: params[:id])
-  #   if @comment.destroy
-  #     render json: @comment
-  #   else
-  #     render json: comment.errors.full_messages, status: :unprocessable_entity
-  #   end
-  # end
-  #
-  # private
-  #
+
+
+  def update
+    @comment = Comment.find_by(id: params[:id])
+    if @comment.update(comment_params)
+      render json: @comment
+    else
+      render json: comment.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @comment = Comment.find_by(id: params[:id])
+    if @comment.destroy
+      render json: @comment
+    else
+      render json: comment.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  private
+
   def comment_params
-    params.require(:comment).permit(:user_id, :body, :commentable)
+    params.require(:comment).permit(:user_id, :body, :commentable_id, :commentable_type)
   end
 end
