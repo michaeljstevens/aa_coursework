@@ -1,0 +1,17 @@
+
+<ul>
+  <li><%= @cat.name %></li>
+  <li><%= @cat.birth_date %></li>
+  <li><%= @cat.color %></li>
+  <li><%= @cat.sex %></li>
+  <li><%= @cat.description %></li>
+</ul>
+
+  Rental Requests
+  <% @cat.cat_rental_requests.order(:start_date).each do |request|%>
+    <%= request.start_date %>
+    <%= request.end_date %>
+    <%  if request.status == "PENDING"  %>
+      <%= render "button" %>
+    <% end %>
+  <% end  %>
