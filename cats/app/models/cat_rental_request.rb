@@ -12,7 +12,7 @@ class CatRentalRequest < ActiveRecord::Base
   def overlapping_requests
     @requests = CatRentalRequest.all
     @requests.each do |request|
-      unless self == request
+      if self.id != request.id && self.cat_id == request.cat_id
         if self.start_date < request.end_date && self.end_date > request.start_date
           if request.overlapping_approved_requests
             self.errors[:overlap] << "Request overlaps with another approved request"
@@ -31,7 +31,7 @@ class CatRentalRequest < ActiveRecord::Base
     CatRentalRequest.transaction do
       self.status = "APPROVED"
       self.overlapping_pending_requests
-      self.save
+      self.save!
     end
   end
 

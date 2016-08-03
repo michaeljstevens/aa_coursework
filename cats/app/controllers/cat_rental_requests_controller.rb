@@ -7,15 +7,16 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @cat_rent = CatRentalRequest.new(cat_rental_request_params)
-    if @cat_rent.save
+    if @cat_rent.save!
       redirect_to cats_url
     else
       @cat_rent.errors.full_messages
+      redirect_to new_cat_rental_request_url
     end
   end
 
   def update
-    @cat_rent = CatRentalRequest.find_by_id(params[:id])
+    @cat_rent = CatRentalRequest.find_by(cat_id: params[:id])
     if params[:status] == "APPROVED"
       @cat_rent.approve!
     elsif params[:status] == "DENIED"
