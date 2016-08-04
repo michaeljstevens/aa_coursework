@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160804003408) do
     t.integer  "user_id"
   end
 
-  add_index "cats", ["user_id"], name: "index_cats_on_user_id", unique: true, using: :btree
+  add_index "cats", ["user_id"], name: "index_cats_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "user_name",       null: false
