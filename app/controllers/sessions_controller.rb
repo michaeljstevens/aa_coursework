@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  before_action :goto_index, only: [:create, :new]
+
   def new
     render :new
   end
@@ -9,20 +11,21 @@ class SessionsController < ApplicationController
       params[:user][:user_name],
       params[:user][:password]
     )
+
     if @user
-      @user.reset_session_token!
-      session[:session_token] = @user.session_token
+      login!(@user)
       redirect_to user_url(@user)
     else
       render json: "Credentials are wrong"
     end
   end
 
-  def destory
-    if @current_user
-      @current_user.reset_session_token!
+  def destroy
+    if current_user
+      current_user.reset_session_token!
       session[:session_token] = nil
     end
+    redirect_to cats_url
   end
 
 end
