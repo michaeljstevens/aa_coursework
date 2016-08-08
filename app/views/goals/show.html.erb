@@ -1,0 +1,5 @@
+<%= @goal.title %>
+<% if @goal.completed %>
+  <%= "completed" %>
+<% end %>
+<%= button_to "Edit Goal", edit_goal_url(@goal), method: :get %>

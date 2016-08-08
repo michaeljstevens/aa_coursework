@@ -46,7 +46,42 @@ RSpec.configure do |config|
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
+  def sign_in_user_1
+    User.create!(username: "user1", password: "password")
+  end
 
+  def sign_in_user_2
+    User.create!(username: "user2", password: "password")
+    visit new_session_url
+    fill_in 'username', with: "user2"
+    fill_in 'password', with: "password"
+    click_on 'Sign In User'
+  end
+
+  def create_goal_user_1
+    visit new_goal_url
+    fill_in 'Title', with: "goal1"
+    fill_in 'Details', with: "description1"
+    choose 'Completed'
+    click_on 'Create Goal'
+  end
+
+
+  def create_private_goal_user_1
+    visit new_goal_url
+    fill_in 'Title', with: "goal1"
+    fill_in 'Details', with: "description1"
+    choose 'Private'
+    click_on 'Create Goal'
+
+  end
+
+  def log_in_user_1
+    visit new_session_url
+    fill_in 'username', with: "user1"
+    fill_in 'password', with: "password"
+    click_on 'Sign In User'
+  end
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
@@ -56,7 +91,6 @@ RSpec.configure do |config|
   # aliases for `it`, `describe`, and `context` that include `:focus`
   # metadata: `fit`, `fdescribe` and `fcontext`, respectively.
   config.filter_run_when_matching :focus
-
   # Allows RSpec to persist some state between runs in order to support
   # the `--only-failures` and `--next-failure` CLI options. We recommend
   # you configure your source control system to ignore this file.

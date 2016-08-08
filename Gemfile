@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
+gem 'bcrypt'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
 # Use SCSS for stylesheets
@@ -37,8 +38,6 @@ group :development, :test do
   gem 'spring'
   gem 'factory_girl_rails'
   gem 'pry-rails'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'annotate'
 end
 
@@ -52,6 +51,8 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'guard-rspec'

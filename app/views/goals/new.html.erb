@@ -1,0 +1,31 @@
+New Goal
+<form class="" action="<%= goals_url %>" method="post">
+  <%= auth_token %>
+  <label>
+    Title:
+    <input type="text" name="goal[title]" value="<%=@goal.title %>">
+  </label>
+
+  <label>
+    Details:
+    <textarea name="goal[details]" rows="8" cols="40"><%= @goal.details %></textarea>
+  </label>
+
+  <label>
+    Public
+    <input type="radio" name="goal[private]" value="false">
+  </label>
+
+  <label>
+    Private
+    <input type="radio" name="goal[private]" value="true">
+  </label>
+
+  <label>
+    Completed
+    <input type="radio" name="goal[completed]" value="true">
+  </label>
+
+
+  <input type="submit" name="name" value="Create Goal">
+</form>
