@@ -16,6 +16,17 @@ class User < ActiveRecord::Base
 
   has_many :goals
 
+  has_many :user_comments,
+  primary_key: :id,
+  foreign_key: :user_id,
+  class_name: "UserComment"
+
+  has_many :authored_comments,
+  primary_key: :id,
+  foreign_key: :author_id,
+  class_name: "UserComment"
+
+
   after_initialize :ensure_session_token
 
   attr_reader :password

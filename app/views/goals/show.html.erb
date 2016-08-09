@@ -3,3 +3,19 @@
   <%= "completed" %>
 <% end %>
 <%= button_to "Edit Goal", edit_goal_url(@goal), method: :get %>
+<ul>
+  <% @goal.goal_comments.each do |comment| %>
+  <li>  <%= comment.body %> </li>
+  <% end %>
+
+</ul>
+
+<form class="" action="/goal_comments" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="goal_comment[goal_id]" value="<%= @goal.id %>">
+  <label>
+    Add Comment
+    <textarea name="goal_comment[body]" rows="8" cols="40"></textarea>
+  </label>
+  <input type="submit" name="name" value="Submit Comment">
+</form>
