@@ -45,6 +45,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const View = __webpack_require__(1);
+	const Board = __webpack_require__(2);
+
+	$( () => {
+	  new View(new Board(), $('figure.grid'));
+	});
 
 
 /***/ },
@@ -57,10 +62,11 @@
 	class View {
 	  constructor(board, $display) {
 	    this.board = new Board();
+	    $display.html(this.newBoard());
 	    this.$el = $display;
 	    $display.keydown(this.handleKeyEvent(event));
+	    this.render();
 	  }
-
 
 	  handleKeyEvent(event) {
 
@@ -85,11 +91,21 @@
 	    for (let i = 0; i < 20; i++) {
 	      html += "<ul>";
 	      for (let j = 0; j < 15; j++) {
-	        html += `<li class="${i, j}"></li>`;
+	        html += `<li class="[${i}, ${j}]"></li>`;
 	      }
 	      html += "</ul>";
 	    }
 	    return html;
+	  }
+
+	  render() {
+	    setInterval( () => {
+	      let squares = this.board.snake.segments;
+	      this.newBoard();
+	      squares.forEach( (el) => {
+	        $(`li.${el}`).addClass("snake");
+	      });
+	    },100);
 	  }
 
 	}
@@ -119,7 +135,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Board = __webpack_require__(2)
+	const Board = __webpack_require__(2);
 
 	const SHIFTS = {
 	  "N": [-1, 0], "S" : [1, 0], "E" : [0, 1], "W" : [0, -1]
