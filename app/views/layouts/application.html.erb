@@ -7,22 +7,35 @@
 </head>
 <body>
 
-<ul>
-  <li><%= link_to "Feed", feed_url %></li>
-  <li><%= link_to "User Search", search_users_url %></li>
-</ul>
+<nav class="head-nav">
+  <h1 class="head-h1">Ajax Twitter</h1>
 
-<% if current_user %>
+  <% if current_user %>
   <form action="/session" method="POST">
     <input type="hidden" name="_method" value="DELETE">
     <input
-      type="hidden"
-      name="authenticity_token"
-      value="<%= form_authenticity_token %>">
+    type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>">
 
-    <input type="submit" value="Logout!">
+    <input type="submit" class="logout" value="Logout">
   </form>
-<% end %>
+  <% end %>
+
+  <ul class="head-ul">
+    <li class="head-li"><%= link_to "Feed", feed_url %></li>
+    <li class="head-li"><%= link_to "User Search", search_users_url %></li>
+  </ul>
+
+</nav>
+
+<div class="user-div">
+  <% if current_user %>
+    <h1 class="user-h1"><%= current_user.username %></h1>
+  <% else %>
+    <h1 class="user-h1">Welcome</h1>
+  <% end %>
+</div>
 
 <%= yield %>
 
