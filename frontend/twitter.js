@@ -1,23 +1,11 @@
 const FollowToggle = require('./follow_toggle');
-const UsersSearch = require('./users_search');
+const InfiniteTweets = require('./infinite_tweets');
 const TweetCompose = require('./tweet_compose');
+const UsersSearch = require('./users_search');
 
-
-
-
-$( () => {
-  // debugger
-  $('.follow-toggle').each(function(idx, toggle) {
-    new FollowToggle($(toggle));
-  });
-
-  $('.users-search').each(function(idx, search) {
-    new UsersSearch($(search));
-  });
-
-  $('.tweet-compose').each(function(idx, tweet) {
-    // debugger
-    new TweetCompose($(tweet));
-  });
-
+$(function () {
+  $("div.infinite-tweets").each( (i, tweet) => new InfiniteTweets(tweet) );
+  $("form.tweet-compose").each( (i, form) => new TweetCompose(form) );
+  $("nav.users-search").each( (i, search) => new UsersSearch(search) );
+  $("button.follow-toggle").each( (i, btn) => new FollowToggle(btn, {}) );
 });
