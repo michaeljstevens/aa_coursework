@@ -3,6 +3,7 @@ import Note from '../../util/note';
 import { NOTE_NAMES, TONES } from '../../util/tones';
 import $ from 'jquery';
 import { keyMap } from '../../reducers/notes_reducer';
+import NoteKey from './note_key';
 
 class Synth extends React.Component {
   constructor () {
@@ -42,9 +43,9 @@ class Synth extends React.Component {
 
   render () {
     this.playNotes.bind(this)();
-    let li = this.notes.map( (el) => <li>{el[0]}</li> );
+    let li = this.notes.map( (note) => (<NoteKey note={note} /> ));
     return (<ul>
-      { li }
+      {li}
     </ul>);
   }
 }
