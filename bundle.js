@@ -21453,7 +21453,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Game).call(this));
 	
-	    _this.state = { board: new _minesweeper.Board(10, 10) };
+	    _this.state = { board: new _minesweeper.Board(10, 10), over: false };
 	    return _this;
 	  }
 	
@@ -21470,13 +21470,14 @@
 	  }, {
 	    key: 'restart',
 	    value: function restart() {
-	      this.setState({ board: new _minesweeper.Board(10, 10) });
+	      this.setState({ board: new _minesweeper.Board(10, 10), over: false });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var final = _react2.default.createElement('div', null);
 	      if (this.state.board.won()) {
+	        this.state.over = true;
 	        final = _react2.default.createElement(
 	          'div',
 	          { className: 'final' },
@@ -21492,6 +21493,8 @@
 	          )
 	        );
 	      } else if (this.state.board.lost()) {
+	        this.state.over = true;
+	
 	        final = _react2.default.createElement(
 	          'div',
 	          { className: 'final' },
@@ -21510,7 +21513,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_board2.default, { board: this.state.board, update: this.updateGame.bind(this) }),
+	        _react2.default.createElement(_board2.default, { board: this.state.board, update: this.updateGame.bind(this), over: this.state.over }),
 	        final
 	      );
 	    }
@@ -21696,7 +21699,7 @@
 	
 	      var grid = this.props.board.grid.map(function (row, rowIdx) {
 	        var finalRow = row.map(function (tile, colIdx) {
-	          return _react2.default.createElement(_tile2.default, { key: colIdx, tile: tile, update: _this2.props.update });
+	          return _react2.default.createElement(_tile2.default, { key: colIdx, tile: tile, update: _this2.props.update, over: _this2.props.over });
 	        });
 	        return _react2.default.createElement(
 	          'div',
@@ -21753,11 +21756,13 @@
 	  _createClass(Tile, [{
 	    key: "handleClick",
 	    value: function handleClick(e) {
-	      var flag = false;
-	      if (e.altKey) {
-	        flag = true;
+	      if (!this.props.over) {
+	        var flag = false;
+	        if (e.altKey) {
+	          flag = true;
+	        }
+	        this.props.update(this.props.tile, flag);
 	      }
-	      this.props.update(this.props.tile, flag);
 	    }
 	  }, {
 	    key: "render",

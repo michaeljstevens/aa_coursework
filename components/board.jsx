@@ -6,7 +6,7 @@ class BoardReact extends React.Component {
   render () {
     let grid = this.props.board.grid.map( (row, rowIdx) => {
       let finalRow = row.map( (tile, colIdx) => {
-        return (<Tile key ={colIdx} tile={tile} update={this.props.update} />);
+        return (<Tile key={colIdx} tile={tile} update={this.props.update} over={this.props.over} />);
       });
       return (<div key={rowIdx}>
         {finalRow}

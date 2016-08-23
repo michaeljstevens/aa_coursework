@@ -3,11 +3,13 @@ import React from 'react';
 class Tile extends React.Component {
 
   handleClick (e) {
-    let flag = false;
-    if(e.altKey) {
-      flag = true;
+    if (!this.props.over) {
+      let flag = false;
+      if(e.altKey) {
+        flag = true;
+      }
+      this.props.update(this.props.tile, flag);
     }
-    this.props.update(this.props.tile, flag);
   }
 
   render () {

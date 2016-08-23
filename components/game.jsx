@@ -5,7 +5,7 @@ import BoardReact from './board';
 class Game extends React.Component {
   constructor() {
     super();
-    this.state = { board: new Board(10, 10) };
+    this.state = { board: new Board(10, 10), over: false };
   }
 
   updateGame (tile, flagged) {
@@ -18,12 +18,13 @@ class Game extends React.Component {
   }
 
   restart() {
-    this.setState({board: new Board(10, 10) });
+    this.setState({board: new Board(10, 10), over: false });
   }
 
   render () {
     let final = (<div></div>);
     if (this.state.board.won()) {
+      this.state.over = true;
       final = (
         <div className="final">
           <span>You won!</span>
@@ -31,6 +32,8 @@ class Game extends React.Component {
         </div>
       );
     } else if (this.state.board.lost()) {
+      this.state.over = true;
+
       final = (
         <div className="final">
           <span>You lose!</span>
@@ -40,7 +43,7 @@ class Game extends React.Component {
     }
     return (
       <div>
-        <BoardReact board={this.state.board} update={this.updateGame.bind(this)} />
+        <BoardReact board={this.state.board} update={this.updateGame.bind(this)} over={this.state.over} />
         { final }
       </div>
     );
