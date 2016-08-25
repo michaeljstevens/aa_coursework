@@ -17,7 +17,7 @@ class Api::TodosController < ApplicationController
   def destroy
     @todo = Todo.find(params[:id])
     if @todo.destroy
-      render text: "destroyed"
+      render json: @todo
     else
       flash.now[:errors] = @todo.errors.full_messages
     end
