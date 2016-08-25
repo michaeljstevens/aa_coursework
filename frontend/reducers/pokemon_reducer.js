@@ -15,6 +15,9 @@ const pokemonReducer = (state = {}, action) => {
         newState[pokemon.id] = pokemon;
       });
       return merge({}, state, {pokemons: newState} );
+    case ACTIONS.POKEMON_CONSTANTS.RECEIVE_SINGLE_POKEMON:
+      let currentPokemon = action.pokemon;
+      return merge({}, state, {currentPokemon});
     default:
       return state;
   }

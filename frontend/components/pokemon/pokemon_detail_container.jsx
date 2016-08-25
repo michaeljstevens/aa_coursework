@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as ACTIONS from '../../actions/pokemon_actions.js';
-import PokemonIndex from './pokemon_index.jsx';
+import PokemonDetail from './pokemon_detail.jsx';
 
 
 const mapStateToProps = (state) => ({
-  pokemon: state.pokemons
+  pokemon: state.currentPokemon
 });
 
 // const mapDispatchToProps = (dispatch) =>({
@@ -13,4 +13,4 @@ const mapStateToProps = (state) => ({
 // });
 
 export default connect(mapStateToProps,
-                      null)(PokemonIndex);
+                      null)(PokemonDetail);
