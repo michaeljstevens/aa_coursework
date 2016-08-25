@@ -1,4 +1,4 @@
-import {TODO_CONSTANT, requestTodos, recieveTodos, receiveTodo, removeTodo} from '../actions/todo_actions';
+import {TODO_CONSTANT, requestTodos, recieveTodos, receiveTodo, removeTodo, toggleTodo} from '../actions/todo_actions';
 import {createTodo, updateTodo, destroyTodo, fetchTodos} from '../util/todo_app_util';
 
 

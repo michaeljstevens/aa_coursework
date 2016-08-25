@@ -21,6 +21,7 @@ export const createTodo = (todo, success, error) => {
 };
 
 export const updateTodo = (todo, success, error) => {
+  todo.done = !todo.done;
   $.ajax({
     method: 'PATCH',
     url: `api/todos/${todo.id}`,
