@@ -8,9 +8,6 @@ const mapStateToProps = (state) => ({
   pokemon: state.currentPokemon
 });
 
-// const mapDispatchToProps = (dispatch) =>({
-//   requestAllPokemon: () => dispatch(ACTIONS.requestAllPokemon()),
-// });
 
 export default connect(mapStateToProps,
                       null)(PokemonDetail);

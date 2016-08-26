@@ -5,6 +5,7 @@ import {Router, Route, hashHistory } from 'react-router';
 import * as API from '../util/api_util.js';
 import * as ACTIONS from '../actions/pokemon_actions';
 import PokemonDetailContainer from '../components/pokemon/pokemon_detail_container.jsx';
+import ToyDetailContainer from '../components/toys/toy_detail_container.jsx';
 
 const requestAllPokemon = (store) => (next, replace) =>{
   let success1 = (data) => store.dispatch(ACTIONS.receiveAllPokemon(data));
@@ -23,7 +24,9 @@ const Root = ({store}) =>{
       <Router history={hashHistory}>
 
         <Route path="/" component={PokemonIndexContainer} onEnter={requestAllPokemon(store)}>
-          <Route path="/pokemon/:id" component={PokemonDetailContainer} onEnter={requestSinglePokemon(store)} />
+          <Route path="/pokemon/:id" component={PokemonDetailContainer} onEnter={requestSinglePokemon(store)}>
+            <Route path="toys/:toyId" component={ToyDetailContainer}/>
+          </Route>
         </Route>
 
       </Router>

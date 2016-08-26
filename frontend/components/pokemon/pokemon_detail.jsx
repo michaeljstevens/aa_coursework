@@ -4,12 +4,24 @@ import {withRouter} from 'react-router';
 
 class PokemonDetail extends React.Component {
 
+
+   _handleClick (router, url) {
+      router.push(url);
+    }
+
+    handClick (id) {
+      this._handleClick(this.props.router, `/pokemon/${this.props.pokemon.id}/toys/${id}`);
+    }
+
+
   render () {
     let content = <h1></h1>;
     if (this.props.pokemon) {
       let toys = this.props.pokemon.toys;
-      let toyList = toys.map( (toy) => {
-        return <li>{toy.name}</li>;
+      let toysKeys = Object.keys(this.props.pokemon.toys);
+  
+      let toyList = toysKeys.map( (key) => {
+        return <li onClick={this.handClick.bind(this, toys[key].id)}>{toys[key].name}</li>;
       });
       content = (<section className="pokemon-detail">
           <ul>
@@ -23,6 +35,7 @@ class PokemonDetail extends React.Component {
                 <h3>Toys</h3>
               <ul className="toy-list">
                 {toyList}
+                {this.props.children}
               </ul>
             </section>
           </ul>
