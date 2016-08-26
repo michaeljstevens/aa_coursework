@@ -21447,9 +21447,9 @@
 	
 	var _reactRedux = __webpack_require__(195);
 	
-	var _bench_index_container = __webpack_require__(194);
+	var _search_container = __webpack_require__(206);
 	
-	var _bench_index_container2 = _interopRequireDefault(_bench_index_container);
+	var _search_container2 = _interopRequireDefault(_search_container);
 	
 	var _bench_index = __webpack_require__(204);
 	
@@ -21465,7 +21465,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_bench_index_container2.default, null)
+	      _react2.default.createElement(_search_container2.default, null)
 	    )
 	  );
 	};
@@ -23339,6 +23339,140 @@
 	};
 	
 	exports.default = BenchIndexItem;
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _bench_actions = __webpack_require__(190);
+	
+	var _reactRedux = __webpack_require__(195);
+	
+	var _bench_index = __webpack_require__(204);
+	
+	var _bench_index2 = _interopRequireDefault(_bench_index);
+	
+	var _search = __webpack_require__(207);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return { benches: state.benches };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return { requestBenches: function requestBenches() {
+	      return dispatch((0, _bench_actions.requestBenches)());
+	    } };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_search2.default);
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _bench_map = __webpack_require__(208);
+	
+	var _bench_map2 = _interopRequireDefault(_bench_map);
+	
+	var _bench_index = __webpack_require__(204);
+	
+	var _bench_index2 = _interopRequireDefault(_bench_index);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Search = function Search(_ref) {
+	  var benches = _ref.benches;
+	  var requestBenches = _ref.requestBenches;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_bench_map2.default, null),
+	    _react2.default.createElement(_bench_index2.default, { benches: benches, requestBenches: requestBenches })
+	  );
+	};
+	
+	exports.default = Search;
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BenchMap = function (_React$Component) {
+	  _inherits(BenchMap, _React$Component);
+	
+	  function BenchMap() {
+	    _classCallCheck(this, BenchMap);
+	
+	    return _possibleConstructorReturn(this, (BenchMap.__proto__ || Object.getPrototypeOf(BenchMap)).apply(this, arguments));
+	  }
+	
+	  _createClass(BenchMap, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // find the `<map>` node on the DOM
+	      var mapDOMNode = this.refs.map;
+	
+	      // set the map to show SF
+	      var mapOptions = {
+	        center: { lat: 37.7758, lng: -122.435 }, // this is SF
+	        zoom: 13
+	      };
+	
+	      // wrap the mapDOMNode in a Google Map
+	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', { id: 'map_container', ref: 'map' });
+	    }
+	  }]);
+	
+	  return BenchMap;
+	}(_react2.default.Component);
+	
+	exports.default = BenchMap;
 
 /***/ }
 /******/ ]);
