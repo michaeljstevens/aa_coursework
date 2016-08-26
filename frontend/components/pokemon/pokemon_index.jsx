@@ -1,6 +1,6 @@
 import React from 'react';
 import PokemonItemIndex from './pokemon_index_item.jsx';
-
+import PokemonFormContainer from './pokemon_form_container.jsx';
 
 class PokemonIndex extends React.Component {
 
@@ -17,6 +17,7 @@ class PokemonIndex extends React.Component {
     }
     return(
       <ul>
+        <PokemonFormContainer />
         {pokeLis ? pokeLis : ""}
         {this.props.children}
       </ul>

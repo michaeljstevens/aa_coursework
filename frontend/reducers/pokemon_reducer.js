@@ -2,7 +2,7 @@ import * as ACTIONS from '../actions/pokemon_actions.js';
 import {merge} from 'lodash';
 /*
   DefualtState = {
-    pokemons: {},
+    pokemons: {},  //All Poke
     currentPokemon: {
       toys: {}
     }
@@ -27,6 +27,10 @@ const pokemonReducer = (state = {}, action) => {
       });
       newState2.currentPokemon.toys = toyObj;
       return newState2;
+    case ACTIONS.POKEMON_CONSTANTS.RECEIVE_NEW_POKEMON:
+      let newState3 = merge({}, state);
+      newState3.pokemons[action.pokemon.id] = action.pokemon;
+      return newState3;
     default:
       return state;
   }
