@@ -23407,7 +23407,7 @@
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(_bench_map2.default, null),
+	    _react2.default.createElement(_bench_map2.default, { benches: benches }),
 	    _react2.default.createElement(_bench_index2.default, { benches: benches, requestBenches: requestBenches })
 	  );
 	};
@@ -23430,6 +23430,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _marker_manager = __webpack_require__(209);
+	
+	var _marker_manager2 = _interopRequireDefault(_marker_manager);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23448,19 +23452,25 @@
 	  }
 	
 	  _createClass(BenchMap, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      this.MarkerManager.updateMarkers(props.benches);
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      // find the `<map>` node on the DOM
 	      var mapDOMNode = this.refs.map;
-	
-	      // set the map to show SF
 	      var mapOptions = {
 	        center: { lat: 37.7758, lng: -122.435 }, // this is SF
 	        zoom: 13
 	      };
+	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
+	      this.MarkerManager = new _marker_manager2.default(this.map);
+	      this.MarkerManager.updateMarkers(this.props.benches);
+	      // set the map to show SF
 	
 	      // wrap the mapDOMNode in a Google Map
-	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
 	    }
 	  }, {
 	    key: 'render',
@@ -23473,6 +23483,60 @@
 	}(_react2.default.Component);
 	
 	exports.default = BenchMap;
+
+/***/ },
+/* 209 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var MarkerManager = function () {
+	  function MarkerManager(map) {
+	    _classCallCheck(this, MarkerManager);
+	
+	    this.map = map;
+	    this.markers = [];
+	  }
+	
+	  _createClass(MarkerManager, [{
+	    key: 'updateMarkers',
+	    value: function updateMarkers(benches) {
+	      var _this = this;
+	
+	      console.log('time to update');
+	      if (benches.length > 0) {
+	        benches.forEach(function (bench) {
+	          if (!_this.markers.includes(bench.description)) {
+	            _this.markers.push(bench.description);
+	            var marker = new google.maps.Marker({
+	              position: { lat: bench.lat, lng: bench.lng },
+	              map: _this.map,
+	              title: bench.description
+	            });
+	          }
+	        });
+	      }
+	    }
+	
+	    // _benchesToAdd()
+	    //
+	    // _createMarkerFromBench()
+	
+	
+	  }]);
+	
+	  return MarkerManager;
+	}();
+	
+	exports.default = MarkerManager;
 
 /***/ }
 /******/ ]);
