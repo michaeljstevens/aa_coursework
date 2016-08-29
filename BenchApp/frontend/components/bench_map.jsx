@@ -18,6 +18,15 @@ class BenchMap extends React.Component {
     this.map = new google.maps.Map(mapDOMNode, mapOptions);
     this.MarkerManager = new MarkerManager(this.map);
     this.MarkerManager.updateMarkers(this.props.benches);
+
+    google.maps.event.addListener(this.map, 'idle', () => {
+      const { north, south, east, west } = this.map.getBounds().toJSON();
+      const bounds = {
+        northEast: { lat:north, lng: east },
+        southWest: { lat: south, lng: west }
+      };
+      this.props.updateBounds(bounds);
+    });
     // set the map to show SF
 
     // wrap the mapDOMNode in a Google Map
