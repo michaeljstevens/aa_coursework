@@ -1,0 +1,28 @@
+* {
+  border: solid black 1px;
+}
+
+ul {
+  float: left;
+  width: 250px;
+  height: 100px;
+}
+
+li {
+  background-color: black;
+  list-style: none;
+  height: 20px;
+  margin:auto;
+}
+
+.block1 {
+  width: 50px;
+}
+
+.block2 {
+  width: 100px;
+}
+
+.block3{
+  width: 150px;
+}
