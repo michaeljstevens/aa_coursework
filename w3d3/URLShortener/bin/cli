@@ -1,0 +1,24 @@
+print "What is your email? >>"
+email = gets.chomp
+user = User.where("email = ?", email).first
+
+print "Create new URL? Press 1. Go to existing URL? Press 2: "
+input = gets.chomp.to_i
+if input == 1
+  print "Paste URL here: "
+  long_url = gets.chomp
+  short_url = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+  print "Your short URL is #{short_url.short_url}"
+end
+
+if input == 2
+  print "Paste shortened URL here: "
+  shortened_url = gets.chomp
+  short_url_obj = ShortenedUrl.where("short_url = ?", shortened_url).first
+  long_url = short_url_obj.long_url
+  Launchy.open(long_url)
+  new_visit = Visit.create!(
+    :user_id => user.id,
+    :short_url_id => short_url_obj.id
+  )
+end
