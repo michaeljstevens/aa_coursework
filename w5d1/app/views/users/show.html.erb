@@ -1,0 +1,16 @@
+<ul>
+  <% @user.user_comments.each do |comment| %>
+  <li>  <%= comment.body %> </li>
+  <% end %>
+
+</ul>
+
+<form class="" action="/user_comments" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="user_comment[user_id]" value="<%= @user.id %>">
+  <label>
+    Add Comment
+    <textarea name="user_comment[body]" rows="8" cols="40"></textarea>
+  </label>
+  <input type="submit" name="name" value="Submit Comment">
+</form>
